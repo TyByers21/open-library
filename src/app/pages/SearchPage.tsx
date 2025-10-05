@@ -6,16 +6,10 @@ import BookCard from '../components/BookCard'
 import BookDetailModal from '../components/BookDetailModal'
 import type { SearchDoc } from '../lib/api'
 import { useBookshelf } from '../context/BookshelfProvider'
-import Image from 'next/image'
-
-// Import with next's dynamic import
-import dynamic from 'next/dynamic';
-
-
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
-  const [language, setLanguage] = useState('eng')
+  const [language, setLanguage] = useState('eng') 
   const [results, setResults] = useState<SearchDoc[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -23,16 +17,12 @@ export default function SearchPage() {
 
   const { add, remove, has } = useBookshelf()
 
-  const AnimatedCursor = dynamic(() => import('react-animated-cursor'), {
-    ssr: false,
-});
-
   async function doSearch() {
     if (!query.trim()) return
     setLoading(true)
     setError(null)
     try {
-      const data = await searchBooks(query.trim(), 1, language)
+      const data = await searchBooks(query.trim(), 1, language) 
       setResults(data.docs)
     } catch (e: any) {
       setError(e.message ?? 'Search error')
@@ -42,31 +32,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="p-6 flex flex-col items-center justify-center">
-    <AnimatedCursor
-  innerSize={8}
-  outerSize={35}
-  innerScale={1}
-  outerScale={2}
-  outerAlpha={0}
-  hasBlendMode={true}
-  innerStyle={{
-    backgroundColor: 'var(--cursor-color)'
-  }}
-  outerStyle={{
-    border: '3px solid var(--cursor-color)'
-  }}
-/>
-      <div className="pb-4">
-        <Image
-          src="/book-nook-main.png"
-          alt="Book Nook"
-          width={420}
-          height={240}
-          className="mx-auto"
-          priority
-        />
-      </div>
+    <div className="p-6">
       <SearchBar 
         value={query} 
         onChange={setQuery} 
