@@ -1,17 +1,12 @@
 'use client'
 import React, { useState } from 'react'
 import SearchBar from '../components/SearchBar'
-import { searchBooks } from '../lib/api'
+import { searchAuthors, searchBooks } from '../lib/api'
 import BookCard from '../components/BookCard'
 import BookDetailModal from '../components/BookDetailModal'
 import type { SearchDoc } from '../lib/api'
 import { useBookshelf } from '../context/BookshelfProvider'
 import Image from 'next/image'
-
-// Import with next's dynamic import
-import dynamic from 'next/dynamic';
-
-
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
@@ -23,16 +18,24 @@ export default function SearchPage() {
 
   const { add, remove, has } = useBookshelf()
 
-  const AnimatedCursor = dynamic(() => import('react-animated-cursor'), {
-    ssr: false,
-});
+  // Clear results when search type changes
+  const handleSearchTypeChange = () => {
+    setResults([])
+    setError(null)
+  }
 
-  async function doSearch() {
+  async function doSearch(searchType: 'title' | 'author') {
     if (!query.trim()) return
     setLoading(true)
     setError(null)
+    
     try {
-      const data = await searchBooks(query.trim(), 1, language)
+      let data
+      if (searchType === 'author') {
+        data = await searchAuthors(query.trim(), 1, language)
+      } else {
+        data = await searchBooks(query.trim(), 1, language)
+      }
       setResults(data.docs)
     } catch (e: any) {
       setError(e.message ?? 'Search error')
@@ -43,20 +46,6 @@ export default function SearchPage() {
 
   return (
     <div className="p-6 flex flex-col items-center justify-center">
-    <AnimatedCursor
-  innerSize={8}
-  outerSize={35}
-  innerScale={1}
-  outerScale={2}
-  outerAlpha={0}
-  hasBlendMode={true}
-  innerStyle={{
-    backgroundColor: 'var(--cursor-color)'
-  }}
-  outerStyle={{
-    border: '3px solid var(--cursor-color)'
-  }}
-/>
       <div className="pb-4">
         <Image
           src="/book-nook-main.png"
@@ -70,7 +59,8 @@ export default function SearchPage() {
       <SearchBar 
         value={query} 
         onChange={setQuery} 
-        onSubmit={doSearch} 
+        onSubmit={doSearch}
+        onSearchTypeChange={handleSearchTypeChange}  // Add this prop
         language={language}            
         onLanguageChange={setLanguage}  
       />
@@ -78,7 +68,9 @@ export default function SearchPage() {
       <div className="mt-6">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-600">{error}</p>}
-        {!loading && !error && results.length === 0 && <p className="text-slate-500">No results yet — try a search.</p>}
+        {!loading && !error && results.length === 0 && (
+          <p className="text-slate-500">No results yet — try a search.</p>
+        )}
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((r) => (
@@ -86,7 +78,7 @@ export default function SearchPage() {
               key={r.key}
               book={r}
               onOpen={(b) => setSelected(b)}
-              onToggleSave={(b)=> has(b.key) ? remove(b.key) : add(b)}
+              onToggleSave={(b) => has(b.key) ? remove(b.key) : add(b)}
               saved={has(r.key)}
             />
           ))}
