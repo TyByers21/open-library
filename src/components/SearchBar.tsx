@@ -6,7 +6,7 @@ type Props = {
   value: string
   onChange: (v: string) => void
   onSubmit: (searchType: 'title' | 'author') => void
-  onSearchTypeChange?: () => void  // New optional callback
+  onSearchTypeChange?: () => void  
   language: string
   onLanguageChange: (v: string) => void
 }
@@ -23,8 +23,8 @@ export default function SearchBar({
 
   const handleSearchTypeChange = (newType: 'title' | 'author') => {
     setSearchType(newType)
-    onChange('')  // Clear the input field
-    onSearchTypeChange?.()  // Notify parent to clear results
+    onChange('') 
+    onSearchTypeChange?.()  
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,7 +37,7 @@ export default function SearchBar({
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-full max-w-2xl mx-auto"
     >
-      {/* Search Type Selector */}
+
       <div className="flex gap-6 justify-center">
         <label className="flex items-center gap-2 cursor-pointer">
           <input
@@ -64,7 +64,7 @@ export default function SearchBar({
         </label>
       </div>
 
-      {/* Search Field and Controls */}
+
       <div className="flex flex-wrap gap-2 justify-center">
         <div className="relative flex-1 min-w-[220px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />

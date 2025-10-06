@@ -60,7 +60,7 @@ export default function SearchPage() {
         value={query} 
         onChange={setQuery} 
         onSubmit={doSearch}
-        onSearchTypeChange={handleSearchTypeChange}  // Add this prop
+        onSearchTypeChange={handleSearchTypeChange} 
         language={language}            
         onLanguageChange={setLanguage}  
       />

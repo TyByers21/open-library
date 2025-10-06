@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import LayoutWithDrawer from '@/components/LayoutWithDrawer'
-import { BookshelfProvider } from '@/context/BookshelfProvider'  // ✅ import this
+import { BookshelfProvider } from '@/context/BookshelfProvider' 
 
 export const metadata: Metadata = {
   title: 'The Book Nook',
@@ -19,7 +19,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* ✅ Wrap your entire app in the BookshelfProvider */}
         <BookshelfProvider>
           <LayoutWithDrawer>{children}</LayoutWithDrawer>
         </BookshelfProvider>
