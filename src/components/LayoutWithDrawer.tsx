@@ -1,19 +1,21 @@
+// src/components/LayoutWithDrawer.tsx
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { BookshelfDrawer } from '@/components/BookshelfDrawer'
-import { SearchDoc } from '@/lib/api'
+import { SearchDoc } from '@/lib/api' // Assuming SearchDoc is used directly or indirectly
 import { useBookshelf } from '@/context/BookshelfProvider'
 import ThemeToggle from '@/components/ThemeToggle'
 
 export default function LayoutWithDrawer({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false) // Initial state: false
   const { books } = useBookshelf()
   const bookCount = books.length
 
   useEffect(() => {
-    setMounted(true)
+    // This effect runs ONLY on the client after initial render/hydration
+    setMounted(true) // Set to true once the component has mounted on the client
   }, [])
 
   return (
@@ -29,14 +31,15 @@ export default function LayoutWithDrawer({ children }: { children: React.ReactNo
           </Link>
 
           <div className="flex items-center gap-4">
-            {mounted && <ThemeToggle />}
+            {mounted && <ThemeToggle />} {/* ThemeToggle already uses `mounted` */}
 
             <button
               className="relative px-3 py-2 rounded-md bg-sky-600 text-white hover:bg-sky-700 transition"
               onClick={() => setDrawerOpen(true)}
             >
               My Bookshelf
-              {bookCount > 0 && (
+              {/* Only render the book count span AFTER the component has mounted on the client */}
+              {mounted && bookCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                   {bookCount}
                 </span>

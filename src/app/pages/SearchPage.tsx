@@ -44,7 +44,7 @@ export default function SearchPage() {
       <div className="mt-6">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-600">{error}</p>}
-        {!loading && !error && results.length === 0 && <p className="text-slate-500">No results yet — try a search.</p>}
+        {!loading && !error && results.length === 0 && <p className="text-slate-500 text-center">No results yet — try a search.</p>}
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((r) => (

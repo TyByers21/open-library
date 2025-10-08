@@ -6,9 +6,10 @@ type Props = {
   value: string
   onChange: (v: string) => void
   onSubmit: (searchType: 'title' | 'author') => void
-  onSearchTypeChange?: () => void  
+  onSearchTypeChange?: (newType: 'title' | 'author') => void 
+
   language: string
-  onLanguageChange: (v: string) => void
+  onLanguageChange: (v: string) => void 
 }
 
 export default function SearchBar({
@@ -23,8 +24,7 @@ export default function SearchBar({
 
   const handleSearchTypeChange = (newType: 'title' | 'author') => {
     setSearchType(newType)
-    onChange('') 
-    onSearchTypeChange?.()  
+    onSearchTypeChange?.(newType)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,7 +37,6 @@ export default function SearchBar({
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-full max-w-2xl mx-auto"
     >
-
       <div className="flex gap-6 justify-center">
         <label className="flex items-center gap-2 cursor-pointer">
           <input
@@ -63,7 +62,6 @@ export default function SearchBar({
           <span className="text-slate-700 font-medium">Search by Author</span>
         </label>
       </div>
-
 
       <div className="flex flex-wrap gap-2 justify-center">
         <div className="relative flex-1 min-w-[220px]">

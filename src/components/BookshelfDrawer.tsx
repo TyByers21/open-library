@@ -42,7 +42,7 @@ export const BookshelfDrawer = ({
               </p>
             </div>
           ) : (
-          <div className="mt-4 grid grid-cols-1 ">
+          <div className="mt-4 grid w-7/8 mx-auto grid-cols-1 gap-4">
           {books.map(b => (
           <BookCard
           key={b.key}
