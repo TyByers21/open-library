@@ -54,10 +54,16 @@ export const BookshelfDrawer = ({
           ))}
           </div>
           )}
-          
-          
-          <BookDetailModal book={selected} onClose={() => setSelected(null)} />
-          </div>
+
+
+          <BookDetailModal
+            open={selected !== null}
+            onOpenChange={(open) => setSelected(open ? selected : null)}
+            book={selected}
+            onToggleSave={(book) => remove(book.key)}
+            saved={selected ? has(selected.key) : false}
+          />
+        </div>
       </SheetContent>
     </Sheet>
   );

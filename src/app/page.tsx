@@ -15,6 +15,7 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selected, setSelected] = useState<SearchDoc | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const { add, remove, has } = useBookshelf()
 
@@ -28,7 +29,7 @@ export default function SearchPage() {
     if (!query.trim()) return
     setLoading(true)
     setError(null)
-    
+
     try {
       let data
       if (searchType === 'author') {
@@ -44,8 +45,19 @@ export default function SearchPage() {
     }
   }
 
+  function handleToggleSave(book: SearchDoc) {
+    if (has(book.key)) remove(book.key)
+    else add(book)
+  }
+
+  function handleOpenDetails(book: SearchDoc) {
+    setSelected(book)
+    setModalOpen(true)
+  }
+
   return (
     <div className="p-6 flex flex-col items-center justify-center">
+      {/* Logo */}
       <div className="pb-4">
         <Image
           src="/book-nook-main.png"
@@ -56,16 +68,19 @@ export default function SearchPage() {
           priority
         />
       </div>
-      <SearchBar 
-        value={query} 
-        onChange={setQuery} 
+
+      {/* SearchBar */}
+      <SearchBar
+        value={query}
+        onChange={setQuery}
         onSubmit={doSearch}
-        onSearchTypeChange={handleSearchTypeChange} 
-        language={language}            
-        onLanguageChange={setLanguage}  
+        onSearchTypeChange={handleSearchTypeChange}
+        language={language}
+        onLanguageChange={setLanguage}
       />
 
-      <div className="mt-6">
+      {/* Search Results */}
+      <div className="mt-6 w-full text-center max-w-5xl">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-600">{error}</p>}
         {!loading && !error && results.length === 0 && (
@@ -77,15 +92,25 @@ export default function SearchPage() {
             <BookCard
               key={r.key}
               book={r}
-              onOpen={(b) => setSelected(b)}
-              onToggleSave={(b) => has(b.key) ? remove(b.key) : add(b)}
+              onOpen={handleOpenDetails}
+              onToggleSave={handleToggleSave}
               saved={has(r.key)}
             />
           ))}
         </div>
       </div>
 
-      <BookDetailModal book={selected} onClose={() => setSelected(null)} />
+      {/* Book Detail Modal */}
+      <BookDetailModal
+        open={modalOpen}
+        onOpenChange={(open) => {
+          setModalOpen(open)
+          if (!open) setSelected(null)
+        }}
+        book={selected}
+        onToggleSave={handleToggleSave}
+        saved={selected ? has(selected.key) : false}
+      />
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import './globals.css'
+import ThemeProvider from '@/context/ThemeProvider'
 import type { Metadata } from 'next'
 import LayoutWithDrawer from '@/components/LayoutWithDrawer'
 import { BookshelfProvider } from '@/context/BookshelfProvider' 
@@ -17,11 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <BookshelfProvider>
-          <LayoutWithDrawer>{children}</LayoutWithDrawer>
-        </BookshelfProvider>
+     <html lang="en" suppressHydrationWarning>
+      <body className="transition-colors duration-500 bg-background text-foreground" suppressHydrationWarning>
+
+        <ThemeProvider>
+          <BookshelfProvider>
+            <LayoutWithDrawer>{children}</LayoutWithDrawer>
+          </BookshelfProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

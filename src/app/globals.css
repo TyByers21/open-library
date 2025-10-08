@@ -1,25 +1,50 @@
 @import "tailwindcss";
 @layer reset, base, tokens, recipes, utilities;
 
+/* ---------------------------------------------------------
+   🎨 Base Theme Tokens (Light & Dark)
+--------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+
+  --primary: 210 80% 45%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 16% 96%;
+  --secondary-foreground: 210 40% 20%;
+  --muted: 210 16% 92%;
+  --muted-foreground: 210 20% 35%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --radius: 0.75rem;
 }
 
+.dark {
+  --background: 222.2 25% 10%;
+  --foreground: 210 40% 98%;
+  --primary: 210 80% 60%;
+  --primary-foreground: 222.2 25% 10%;
+  --secondary: 222.2 18% 20%;
+  --secondary-foreground: 210 40% 95%;
+  --muted: 222.2 20% 25%;
+  --muted-foreground: 210 20% 85%;
+  --card: 222.2 18% 12%;
+  --card-foreground: 210 40% 98%;
+}
+
+/* ---------------------------------------------------------
+   🌐 Tailwind Theme Bridge
+--------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ---------------------------------------------------------
+   🪄 Animations (Drawer / Sheet)
+--------------------------------------------------------- */
 @layer utilities {
   @keyframes slide-in-from-right {
     from {
@@ -54,17 +79,18 @@
   }
 }
 
-
+/* ---------------------------------------------------------
+   🧱 Base Styles
+--------------------------------------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
+  @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] transition-colors duration-500;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 html {
-  --cursor-color: #333
+  --cursor-color: #333;
 }
 
-html.dark-mode {
-  --cursor-color: #fff
+html.dark {
+  --cursor-color: #fff;
 }
