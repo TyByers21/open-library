@@ -22,7 +22,7 @@ export default function LayoutWithDrawer({ children }: { children: React.ReactNo
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <img
-              src="/book nook2.png"
+              src="/logo.png"
               className="w-60"
               alt="Book Nook logo"
             />

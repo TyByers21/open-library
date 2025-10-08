@@ -57,7 +57,7 @@ export default function SearchPage() {
 
   return (
     <div className="p-6 flex flex-col items-center justify-center">
-      {/* Logo */}
+
       <div className="pb-4">
         <Image
           src="/book-nook-main.png"
@@ -69,7 +69,6 @@ export default function SearchPage() {
         />
       </div>
 
-      {/* SearchBar */}
       <SearchBar
         value={query}
         onChange={setQuery}
@@ -78,8 +77,7 @@ export default function SearchPage() {
         language={language}
         onLanguageChange={setLanguage}
       />
-
-      {/* Search Results */}
+      
       <div className="mt-6 w-full text-center max-w-5xl">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-600">{error}</p>}
@@ -100,7 +98,6 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Book Detail Modal */}
       <BookDetailModal
         open={modalOpen}
         onOpenChange={(open) => {
