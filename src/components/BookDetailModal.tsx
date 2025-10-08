@@ -15,7 +15,7 @@ type Props = {
   saved: boolean
 }
 
-// Define variants for the modal container
+
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.96, y: 30 },
   visible: {
@@ -26,9 +26,9 @@ const modalVariants = {
       type: 'spring',
       stiffness: 200,
       damping: 25,
-      when: 'beforeChildren', // Animate parent first, then children
-      staggerChildren: 0.08, // Stagger children by 0.08 seconds
-      delayChildren: 0.1, // Delay the start of children animations slightly
+      when: 'beforeChildren', 
+      staggerChildren: 0.08, 
+      delayChildren: 0.1, 
     },
   },
   exit: {
@@ -39,21 +39,20 @@ const modalVariants = {
       type: 'spring',
       stiffness: 200,
       damping: 25,
-      when: 'afterChildren', // Animate children first, then parent on exit
+      when: 'afterChildren', 
       staggerChildren: 0.05,
-      staggerDirection: -1, // Stagger in reverse order on exit
+      staggerDirection: -1, 
     },
   },
 }
 
-// Define variants for individual content items inside the modal
+
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 5 }, // Added exit for consistency
+  exit: { opacity: 0, y: 5 }, 
 }
 
-// Variants for the overlay
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.25 } },
@@ -121,28 +120,26 @@ export default function BookDetailModal({
         ? details.description
         : details.description?.value)) ?? 'No description available.'
 
-  const cover = book.cover_i ? coverUrl(book.cover_i, 'L') : '/placeholder-book.svg' // Added a placeholder for missing cover_i
+  const cover = book.cover_i ? coverUrl(book.cover_i, 'L') : '/placeholder-book.svg' 
 
   return (
     <AnimatePresence>
       {open && (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
           <Dialog.Portal forceMount>
-            {/* The Dialog.Overlay now uses the overlayVariants */}
             <Dialog.Overlay asChild>
               <motion.div
                 className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-                variants={overlayVariants} // Use overlay variants
+                variants={overlayVariants} 
                 initial="hidden"
                 animate="visible"
                 exit="exit"
               />
             </Dialog.Overlay>
 
-            {/* The Dialog.Content is now the main animated container for the content */}
             <Dialog.Content asChild>
               <motion.div
-                variants={modalVariants} // Use the combined modal variants
+                variants={modalVariants} 
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -166,7 +163,7 @@ export default function BookDetailModal({
                   </motion.button>
                 </Dialog.Close>
 
-                {/* Responsive Layout - each direct child will now use itemVariants */}
+  
                 <div className="flex flex-row gap-4 sm:gap-6 items-start">
                   {/* Book Cover */}
                   <motion.div
@@ -267,8 +264,8 @@ export default function BookDetailModal({
                     >
                       {saved ? 'Saved to Library' : 'Save to Library'}
                     </motion.button>
-                  </div> {/* End of Details flex column */}
-                </div> {/* End of Responsive Layout flex row */}
+                  </div> 
+                </div> 
               </motion.div>
             </Dialog.Content>
           </Dialog.Portal>

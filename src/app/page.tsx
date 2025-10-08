@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client'
 import React, { useState, useEffect, useCallback } from 'react'
 import SearchBar from '../components/SearchBar'
@@ -11,7 +10,7 @@ import Image from 'next/image'
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
-  const [language, setLanguage] = useState('all') // Default to 'all'
+  const [language, setLanguage] = useState('all')
   const [currentSearchType, setCurrentSearchType] = useState<'title' | 'author'>('title')
   const [results, setResults] = useState<SearchDoc[]>([])
   const [loading, setLoading] = useState(false)
@@ -55,46 +54,25 @@ export default function SearchPage() {
     doSearch(searchTypeFromSearchBar, query, language);
   };
 
-  // MODIFIED: This handler now clears everything when search type changes
+ 
   const handleSearchTypeChange = (newType: 'title' | 'author') => {
-    setCurrentSearchType(newType); // Update the state for search type
-    setQuery('');                // Clear the input field
-    setResults([]);              // Clear any previous results
-    setError(null);              // Clear any previous errors
-    // No doSearch call here, as it's a full reset.
-    // The user will need to type a new query and submit.
+    setCurrentSearchType(newType); 
+    setQuery('');             
+    setResults([]);          
+    setError(null);           
+
   }
 
-  // MODIFIED: This handler now also triggers a search if query is present, AND resets results/error if query is empty
-  const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage); // Update the state
-    // If there's an existing query, re-run the search immediately with the new language.
-    // This gives responsiveness when changing filters on an active query.
+   const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage); 
+
     if (query.trim()) {
       doSearch(currentSearchType, query, newLanguage);
     } else {
-      setResults([]); // If query is empty, clear any existing results
-      setError(null); // Clear any existing errors
+      setResults([]); 
+      setError(null); 
     }
   }
-
-  // The `useEffect` that depends on language, currentSearchType, and query should also be removed
-  // if you strictly only want API calls on explicit submit *or* explicit filter changes.
-  // The current `handleLanguageChange` and `handleSearchTypeChange` already handle the filter changes.
-  // We don't need a passive `useEffect` listening to these states for `doSearch`.
-  // Removed the previous useEffect which looked like this:
-  /*
-  useEffect(() => {
-    if (query.trim()) {
-      doSearch(currentSearchType, query, language);
-    } else {
-      setResults([]);
-    }
-  }, [language, currentSearchType, query, doSearch]);
-  */
-  // RATIONALE: The explicit handlers (handleLanguageChange, handleSearchTypeChange, handleSubmitSearch)
-  // now fully control when doSearch is called. A passive useEffect that re-runs on state changes
-  // can conflict with this explicit control or cause unwanted extra fetches.
 
   function handleToggleSave(book: SearchDoc) {
     if (has(book.key)) remove(book.key)
@@ -124,7 +102,7 @@ export default function SearchPage() {
         value={query}
         onChange={setQuery}
         onSubmit={handleSubmitSearch}
-        onSearchTypeChange={handleSearchTypeChange} // This now triggers a full reset
+        onSearchTypeChange={handleSearchTypeChange} 
         language={language}
         onLanguageChange={handleLanguageChange}
       />
