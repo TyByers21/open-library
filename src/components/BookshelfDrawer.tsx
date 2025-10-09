@@ -22,7 +22,7 @@ export const BookshelfDrawer = ({
   const [selected, setSelected] = useState<SearchDoc | null>(null);
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={onOpenChange} onViewDetails={onViewDetails}>
       <SheetContent side="right" className="w-full sm:max-w-xl">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2 text-2xl">
