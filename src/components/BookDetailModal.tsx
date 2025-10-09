@@ -11,7 +11,8 @@ type Props = {
 }
 
 export default function BookDetailModal({ book, isOpen, onClose }: Props) {
-  const [details, setDetails] = useState<unknown | null>(null)
+  const [details, setDetails] = useState<{ description?: string | { value: string } }>({})
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
