@@ -10,11 +10,13 @@ import { useState } from "react";
 interface BookshelfDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+   onViewDetails?: (book: SearchDoc) => void;
 }
 
 export const BookshelfDrawer = ({
   open,
   onOpenChange,
+  onViewDetails,
 }: BookshelfDrawerProps) => {
   const { books, remove, has } = useBookshelf();
   const [selected, setSelected] = useState<SearchDoc | null>(null);
