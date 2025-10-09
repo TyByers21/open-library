@@ -1,3 +1,4 @@
+
 "use client";
 import { useBookshelf } from "@/context/BookshelfProvider";
 import { BookOpen } from "lucide-react";
@@ -6,6 +7,7 @@ import BookDetailModal from "../components/BookDetailModal";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import type { SearchDoc } from "@/lib/api";
 import { useState } from "react";
+import { AnimatePresence } from 'framer-motion';
 
 interface BookshelfDrawerProps {
   open: boolean;
@@ -22,6 +24,7 @@ export const BookshelfDrawer = ({
   const [selected, setSelected] = useState<SearchDoc | null>(null);
 
   return (
+    <AnimatePresence>
     <Sheet open={open} onOpenChange={onOpenChange} onViewDetails={onViewDetails}>
       <SheetContent side="right" className="w-full sm:max-w-xl">
         <SheetHeader>
@@ -61,5 +64,6 @@ export const BookshelfDrawer = ({
         </div>
       </SheetContent>
     </Sheet>
+    </AnimatePresence>
   );
 };
