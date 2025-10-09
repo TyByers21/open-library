@@ -1,5 +1,6 @@
+
 'use client'
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import SearchBar from '../components/SearchBar'
 import { searchAuthors, searchBooks } from '../lib/api'
 import BookCard from '../components/BookCard'
@@ -31,7 +32,7 @@ export default function SearchPage() {
     setLoading(true);
     setError(null);
 
-    try {
+        try {
       let data;
       const effectiveLanguage = currentLanguage === 'all' ? undefined : currentLanguage;
 
@@ -41,12 +42,17 @@ export default function SearchPage() {
         data = await searchBooks(trimmedQuery, 1, effectiveLanguage);
       }
       setResults(data.docs);
-    } catch (e: any) {
-      setError(e.message ?? 'Search error');
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('Search error');
+      }
       setResults([]);
     } finally {
       setLoading(false);
     }
+
   }, []);
 
   const handleSubmitSearch = (searchTypeFromSearchBar: 'title' | 'author') => {
@@ -112,7 +118,7 @@ export default function SearchPage() {
         {error && <p className="text-red-600 text-center">{error}</p>}
         {/* Adjusted conditional message for clarity */}
         {!loading && !error && results.length === 0 && query.trim() && (
-          <p className="text-slate-500 text-center">No results found for "{query}" in {language === 'all' ? 'all languages' : language}.</p>
+          <p className="text-slate-500 text-center">No results yet — try a search.</p>
         )}
         {!loading && !error && results.length === 0 && !query.trim() && (
             <p className="text-center text-slate-500">No results yet — try a search.</p>
@@ -132,14 +138,12 @@ export default function SearchPage() {
       </div>
 
       <BookDetailModal
-        open={modalOpen}
-        onOpenChange={(open) => {
-          setModalOpen(open)
-          if (!open) setSelected(null)
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false)
+          setSelected(null)
         }}
         book={selected}
-        onToggleSave={handleToggleSave}
-        saved={selected ? has(selected.key) : false}
       />
     </div>
   )

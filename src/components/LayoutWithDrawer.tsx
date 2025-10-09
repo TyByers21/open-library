@@ -5,6 +5,7 @@ import { BookshelfDrawer } from '@/components/BookshelfDrawer'
 import { SearchDoc } from '@/lib/api' 
 import { useBookshelf } from '@/context/BookshelfProvider'
 import ThemeToggle from '@/components/ThemeToggle'
+import Image from 'next/image'
 
 export default function LayoutWithDrawer({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -21,10 +22,12 @@ export default function LayoutWithDrawer({ children }: { children: React.ReactNo
       <header className="sticky top-0 z-50 bg-white dark:bg-slate-900/1 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-700/50 p-4 shadow-sm transition-colors duration-500">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <Link href="/" className="flex items-center">
-            <img
-              src="/logo.png"
-              className="w-60"
+            <Image
+              src="/logo.png"         
               alt="Book Nook logo"
+              width={260}
+              height={60}
+              priority
             />
           </Link>
 

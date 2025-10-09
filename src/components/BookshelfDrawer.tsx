@@ -1,27 +1,23 @@
 "use client";
 import { useBookshelf } from "@/context/BookshelfProvider";
 import { BookOpen } from "lucide-react";
-import BookCard from '../components/BookCard'
-import BookDetailModal from '../components/BookDetailModal'
+import BookCard from "../components/BookCard";
+import BookDetailModal from "../components/BookDetailModal";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-
 import type { SearchDoc } from "@/lib/api";
 import { useState } from "react";
 
 interface BookshelfDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onViewDetails: (book: SearchDoc) => void;
 }
 
 export const BookshelfDrawer = ({
   open,
   onOpenChange,
-  onViewDetails,
 }: BookshelfDrawerProps) => {
-
-  const { books, remove, has } = useBookshelf()
-  const [selected, setSelected] = useState(null as any)
+  const { books, remove, has } = useBookshelf();
+  const [selected, setSelected] = useState<SearchDoc | null>(null);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -42,26 +38,23 @@ export const BookshelfDrawer = ({
               </p>
             </div>
           ) : (
-          <div className="mt-4 grid w-7/8 mx-auto grid-cols-1 gap-4">
-          {books.map(b => (
-          <BookCard
-          key={b.key}
-          book={b}
-          onOpen={(book) => setSelected(book)}
-          onToggleSave={() => remove(b.key)}
-          saved={true}
-          />
-          ))}
-          </div>
+            <div className="mt-4 grid w-7/8 mx-auto grid-cols-1 gap-4">
+              {books.map((b) => (
+                <BookCard
+                  key={b.key}
+                  book={b}
+                  onOpen={(book) => setSelected(book)}
+                  onToggleSave={() => remove(b.key)}
+                  saved={true}
+                />
+              ))}
+            </div>
           )}
 
-
           <BookDetailModal
-            open={selected !== null}
-            onOpenChange={(open) => setSelected(open ? selected : null)}
             book={selected}
-            onToggleSave={(book) => remove(book.key)}
-            saved={selected ? has(selected.key) : false}
+            isOpen={selected !== null}
+            onClose={() => setSelected(null)}
           />
         </div>
       </SheetContent>
