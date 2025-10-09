@@ -40,10 +40,11 @@ export default function BookDetailModal({ book, isOpen, onClose }: Props) {
 
   if (!book) return null
 
-  const description =
-    details?.description?.value ||
-    details?.description ||
-    'No description available.'
+const description =
+  typeof details?.description === 'string'
+    ? details.description
+    : details?.description?.value || 'No description available.';
+
 
   return (
     <AnimatePresence>
